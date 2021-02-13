@@ -87,12 +87,19 @@ Flashcardz is a simple flashcards app to help you memorize any subject you need,
 
 ## Wireframes
 Sets
+
 <img src="https://i.imgur.com/V8KgQi3.png" width=200>
+
 Flash cards
+
 <img src="https://i.imgur.com/wRDM9LR.png" width=200>
+
 Game
+
 <img src="https://i.imgur.com/jK5ttZk.png" width=200>
+
 Profile
+
 <img src="https://i.imgur.com/qVSRW6c.png" width=200>
 
 ### [BONUS] Digital Wireframes & Mockups
