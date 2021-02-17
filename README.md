@@ -102,6 +102,10 @@ Profile
 
 <img src="https://i.imgur.com/qVSRW6c.png" width=200>
 
+Flow
+
+<img src="https://i.imgur.com/uLwtlOP.png" width=200>
+
 ### [BONUS] Digital Wireframes & Mockups
 
 ### [BONUS] Interactive Prototype
