@@ -108,6 +108,8 @@ Flow
 
 ### [BONUS] Digital Wireframes & Mockups
 
+<img src="https://i.imgur.com/05Y0fmE.png" width=200>
+
 ### [BONUS] Interactive Prototype
 
 ## Schema 
