@@ -112,15 +112,52 @@ Flow
 
 ### [BONUS] Interactive Prototype
 
-## Schema 
-[This section will be completed in Unit 9]
+## Schema
 ### Models
-[Add table of models]
+
+Flashcard
+| Property  | Type | Description |
+| -------- | -------- | -------- |
+| frontSide | String | Front side of flashcard, default side, for terms, editable|
+| backSide | String | Back side of card, editable |
+
+FlashcardSet
+| Property | Type | Description|
+| -------- | -------- | -------- |
+| setName | String | Set name | 
+| listFlashcardset | List<Flashcard> | List of flash cards |
+| author | User | The User object who made the set |
+
+User
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| username | String | user's log in name |
+| password | String | user's log in password | 
+| listSets | List<FlashcardSet> | list of sets belonging to the user |
+
+
 ### Networking
-- [Add list of network requests by screen ]
-    - Log in gets user info from data base.
-    - Sets Screen adds/deletes/edits set data in database.
-    - Flash Card Screen adds/deletes/edits flash card data in database.
-    - log out screen removes user from network?
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+- Home Sets Screen
+    - (Read/GET) Query all sets of flashcards of the user
+    ```
+    let query = PFQuery(className:"FlashcardSet")
+    query.whereKey("author", equalTo: currentUser)
+    query.order(byAscending: "createdAt")
+    query.findObjectsInBackground { (sets: [PFObject]?, error: Error?) in
+        if let error = error { 
+          print(error.localizedDescription)
+       } else if let sets = sets {
+          print("Successfully retrieved \(sets.count) sets.")
+       }
+    }
+    ```
+    - (Create/POST)Create New Set of Flashcards
+    - (Delete) Delete existing set
+- Flashcards Screen
+    - (Read/GET) Query all flashcards of the set
+    - (Create/POST) Create new Flashcard
+    - (Delete) Delete existing flashcard
+    - (Update/PUT) Update set of flashcards
+    - (Update/PUT) Update flashcard
+- Profile Screen
+    - (Read/GET) Query logged in user object
