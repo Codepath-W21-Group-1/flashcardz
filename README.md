@@ -42,8 +42,8 @@ Flashcardz is a simple flashcards app to help you memorize any subject you need,
 
 **Walkthroughs**
 
-*Sprint 1*
-<img src="walkthrough.gif" width=250><br>
+Sprint 1
+<img src="walkthrough1.gif" width=250><br>
 
 ### 2. Screen Archetypes
 
