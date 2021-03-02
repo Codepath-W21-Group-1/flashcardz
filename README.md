@@ -40,6 +40,10 @@ Flashcardz is a simple flashcards app to help you memorize any subject you need,
 - [ ] User can have fun using the app.
 - [ ] User can add an image to the card. 
 
+**Walkthroughs**
+
+Sprint 1
+<img src="walkthrough1.gif" width=250><br>
 
 ### 2. Screen Archetypes
 
