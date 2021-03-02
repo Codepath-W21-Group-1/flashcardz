@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Flashcardz</string>
+    <string name="login">login</string>
+    <string name="signup">signup</string>
 </resources>
