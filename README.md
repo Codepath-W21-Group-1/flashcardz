@@ -24,21 +24,21 @@ Flashcardz is a simple flashcards app to help you memorize any subject you need,
 
 **Required Must-have Stories**
 
-[x] User logs into the app, logout, and create account.
-[] User can view and creates a new set of flashcards. 
-[] User creates a flash card with a term and definition on the front and back of the card. 
-[] User can edit an existing card to change the term or definition.
-[] User can swipe left on a card to delete it from the set.
-[] User can add as many cards as they want to a set. 
-[] User can swipe left on a set to delete it.
-[] User can tap on a card to flip it on the other side.  
+- [x] User logs into the app, logout, and create account.
+- [ ] User can view and creates a new set of flashcards. 
+- [ ] User creates a flash card with a term and definition on the front and back of the card. 
+- [ ] User can edit an existing card to change the term or definition.
+- [ ] User can swipe left on a card to delete it from the set.
+- [ ] User can add as many cards as they want to a set. 
+- [ ] User can swipe left on a set to delete it.
+- [ ] User can tap on a card to flip it on the other side.  
 
 **Optional Nice-to-have Stories**
 
-[] User can view the leaderboards of other players.
-[] User can run a game with a set of flashcards
-[] User can have fun using the app.
-[] User can add an image to the card. 
+- [ ] User can view the leaderboards of other players.
+- [ ] User can run a game with a set of flashcards
+- [ ] User can have fun using the app.
+- [ ] User can add an image to the card. 
 
 
 ### 2. Screen Archetypes
