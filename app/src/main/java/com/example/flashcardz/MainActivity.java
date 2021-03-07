@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     protected void querySets() {
         ParseQuery<Set> query = ParseQuery.getQuery(Set.class);
         query.include(Set.KEY_USER);
+        query.whereEqualTo(Set.KEY_USER, ParseUser.getCurrentUser());
 //        query.setLimit(20);
 //        query.addAscendingOrder(Set.KEY_CREATED_KEY);
         query.findInBackground(new FindCallback<Set>() {
