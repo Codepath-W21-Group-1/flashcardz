@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="10dp">
+    android:paddingBottom="0dp">
 
     <TextView
         android:id="@+id/tvFrontText"
@@ -22,7 +22,8 @@
         android:padding="5dp"
         android:paddingBottom="20dp"
         android:shadowRadius="4444"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        tools:text="front_text" />
 
     <TextView
         android:id="@+id/tvBackText"
@@ -37,7 +38,8 @@
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="2dp"
         android:layout_toEndOf="@+id/tvFrontText"
-        android:gravity="center" />
+        android:gravity="center"
+        tools:text="back_text" />
 
     <View
         android:id="@+id/view"

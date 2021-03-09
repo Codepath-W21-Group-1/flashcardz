@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvSets;
     List<Set> allSets;
     SetsAdapter adapter;
+    FloatingActionButton fabCreateSet;
+
 
 
     @Override
@@ -34,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnLogout = findViewById(R.id.btnLogout);
-        btnSet = (Button) findViewById(R.id.btnSet);
+        btnSet = findViewById(R.id.btnSet);
+        fabCreateSet = findViewById(R.id.fabCreateSet);
 
         rvSets = findViewById(R.id.rvSets);
 
@@ -58,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        fabCreateSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goAddSetActivity();
+            }
+        });
+
         SetsAdapter.OnClickListener onClickListener = new SetsAdapter.OnClickListener() {
 
             @Override
@@ -66,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 // create new activity
                 Intent i = new Intent(MainActivity.this, FlashcardsActivity.class);
                 //pass data to be edited
+
 //                i.putExtra(KEY_ITEM_TEXT, items.get(position));
 //                i.putExtra(KEY_ITEM_POSITION, position);
                 //display activity
@@ -98,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     protected void querySets() {
         ParseQuery<Set> query = ParseQuery.getQuery(Set.class);
         query.include(Set.KEY_USER);
@@ -127,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void goFlashcardsActivity(View v){
-        Intent i = new Intent(this, FlashcardsActivity.class);
+    private void goAddSetActivity() {
+        Intent i = new Intent(this, AddSetActivity.class);
         startActivity(i);
     }
 
