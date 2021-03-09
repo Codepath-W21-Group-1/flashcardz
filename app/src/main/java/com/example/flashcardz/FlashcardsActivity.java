@@ -64,5 +64,6 @@ public class FlashcardsActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+        
     }
 }
