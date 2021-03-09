@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.parse.FindCallback;
@@ -33,6 +34,8 @@ public class FlashcardsActivity extends AppCompatActivity {
         allFlashcards = new ArrayList<>();
         adapter = new FlashcardsAdapter(this, allFlashcards);
 
+        rvFlashcards.setLayoutManager(new LinearLayoutManager(this));
+
         rvFlashcards.setAdapter(adapter);
 
         queryFlashcards();
@@ -41,12 +44,14 @@ public class FlashcardsActivity extends AppCompatActivity {
     protected void queryFlashcards() {
         ParseQuery<Flashcard> query = ParseQuery.getQuery(Flashcard.class);
         query.include(Flashcard.KEY_SET);
+        Log.i(TAG, "QUERY");
 //        query.whereEqualTo(Flashcard.KEY_SET, ParseUser.get());
 //        query.setLimit(20);
 //        query.addAscendingOrder(Set.KEY_CREATED_KEY);
         query.findInBackground(new FindCallback<Flashcard>() {
             @Override
             public void done(List<Flashcard> flashcards, ParseException e) {
+
                 if (e != null){
                     Log.e(TAG, "Issure with getting Flashcards",e);
                     return;

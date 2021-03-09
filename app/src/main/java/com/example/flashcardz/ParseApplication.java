@@ -12,6 +12,7 @@ public class ParseApplication extends Application {
         super.onCreate();
 
         ParseObject.registerSubclass(Set.class);
+        ParseObject.registerSubclass(Flashcard.class);
         // Register the parse model
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("p1D4Cocr1Ic4HQ0QllEEspmV71eDViMZO2LbjjDY")

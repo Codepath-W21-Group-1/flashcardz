@@ -1,6 +1,7 @@
 package com.example.flashcardz;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class FlashcardsAdapter extends RecyclerView.Adapter<FlashcardsAdapter.ViewHolder>{
+    public static final String TAG = "FlashcardsAdapter.java";
 
     private Context context;
     private List<Flashcard> flashcards;
 
-    public FlashcardsAdapter(Context context, List<Flashcard> posts) {
+    public FlashcardsAdapter(Context context, List<Flashcard> flashcards) {
         this.context = context;
         this.flashcards = flashcards;
+        Log.i(TAG, "flashcard adapter");
     }
 
     @NonNull
@@ -49,6 +52,7 @@ public class FlashcardsAdapter extends RecyclerView.Adapter<FlashcardsAdapter.Vi
     public void addAll(List<Flashcard> list) {
         flashcards.addAll(list);
         notifyDataSetChanged();
+
     }
 
 
@@ -64,9 +68,12 @@ public class FlashcardsAdapter extends RecyclerView.Adapter<FlashcardsAdapter.Vi
         }
 
         public void bind(Flashcard flashcard){
+
             // bind the flashcard data to the view elements
+
             tvTerm.setText(flashcard.getFrontText());
             tvDescription.setText(flashcard.getBackText());
+            Log.i(TAG, "after bind");
         }
     }
 }

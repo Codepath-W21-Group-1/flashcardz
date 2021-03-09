@@ -6,7 +6,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-@ParseClassName("flashcard")
+@ParseClassName("Flashcard")
 public class Flashcard extends ParseObject {
     public static final String KEY_FRONT_TEXT = "frontText";
     public static final String KEY_BACK_TEXT = "backText";
