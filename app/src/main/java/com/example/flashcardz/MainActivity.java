@@ -20,9 +20,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnLogout;
+    Button btnLogout;
+    Button btnSet;
     public static final String TAG = "MainActivity.java";
-    private RecyclerView rvSets;
+    RecyclerView rvSets;
     List<Set> allSets;
     SetsAdapter adapter;
 
@@ -33,31 +34,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnLogout = findViewById(R.id.btnLogout);
+        btnSet = (Button) findViewById(R.id.btnSet);
+
         rvSets = findViewById(R.id.rvSets);
 
-        rvSets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "rvset on click listener");
-            }
-        });
-//
-//        SetsAdapter.OnClickListener onClickListener = new SetsAdapter().OnClickListener() {
+//        rvSets.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onItemClicked(int position) {
-//                Log.d("MainActivity", "SIngle click at position " + position);
-//                // create new activity
-//                Intent i = new Intent(MainActivity.this, FlashcardsActivity.class);
-////                //pass data to be edited
-////                i.putExtra(KEY_ITEM_TEXT, items.get(position));
-////                i.putExtra(KEY_ITEM_POSITION, position);
-////                //display activity
-////                startActivityForResult(i, EDIT_TEXT_CODE);
-//
-//
-//
+//            public void onClick(View v) {
+//                Log.i(TAG, "rvset on click listener");
 //            }
-//        };
+//        });
+
 
 
 
@@ -71,14 +58,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        rvSets = findViewById(R.id.rvSets);
+        SetsAdapter.OnClickListener onClickListener = new SetsAdapter.OnClickListener() {
+
+            @Override
+            public void onSetClicked(int position) {
+                Log.d("MainActivity", "SIngle click at position " + position);
+                // create new activity
+                Intent i = new Intent(MainActivity.this, FlashcardsActivity.class);
+                //pass data to be edited
+//                i.putExtra(KEY_ITEM_TEXT, items.get(position));
+//                i.putExtra(KEY_ITEM_POSITION, position);
+                //display activity
+//                startActivityForResult(i, EDIT_TEXT_CODE);
+                startActivity(i);
+
+
+
+            }
+        };
+
         allSets = new ArrayList<>();
-        adapter = new SetsAdapter(this, allSets);
+        adapter = new SetsAdapter(this, allSets, onClickListener);
 
         rvSets.setLayoutManager(new LinearLayoutManager(this));
         rvSets.setAdapter(adapter);
 
         querySets();
+
+//        btnSet.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.i(TAG, "SET BUTTON CLICKED");
+//            }
+//        });
+
+
+
 
 
     }
