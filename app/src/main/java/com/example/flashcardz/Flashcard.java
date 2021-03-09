@@ -36,5 +36,4 @@ public class Flashcard extends ParseObject {
     public void setSet(ParseObject set){
         put(KEY_SET, set);
     }
-
 }
