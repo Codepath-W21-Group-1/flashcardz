@@ -33,6 +33,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnLogout = findViewById(R.id.btnLogout);
+        rvSets = findViewById(R.id.rvSets);
+
+        rvSets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "rvset on click listener");
+            }
+        });
+//
+//        SetsAdapter.OnClickListener onClickListener = new SetsAdapter().OnClickListener() {
+//            @Override
+//            public void onItemClicked(int position) {
+//                Log.d("MainActivity", "SIngle click at position " + position);
+//                // create new activity
+//                Intent i = new Intent(MainActivity.this, FlashcardsActivity.class);
+////                //pass data to be edited
+////                i.putExtra(KEY_ITEM_TEXT, items.get(position));
+////                i.putExtra(KEY_ITEM_POSITION, position);
+////                //display activity
+////                startActivityForResult(i, EDIT_TEXT_CODE);
+//
+//
+//
+//            }
+//        };
+
 
 
 
@@ -81,13 +107,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     private void goLoginActivity() {
         Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+    }
+
+    public void goFlashcardsActivity(View v){
+        Intent i = new Intent(this, FlashcardsActivity.class);
         startActivity(i);
     }
 
