@@ -81,9 +81,14 @@ public class AddSetActivity extends AppCompatActivity {
                 }
                 Log.i(TAG, "Post save was successful!!");
 
+                goMainActivity();
                 finish();
             }
         });
+    }
+    private void goMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
 }
