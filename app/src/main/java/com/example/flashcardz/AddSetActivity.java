@@ -27,8 +27,8 @@ public class AddSetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_set);
 
-        etSetName = findViewById(R.id.etSetName);
-        btnAddSet = findViewById(R.id.btnAddSet);
+        etSetName = findViewById(R.id.etFrontText);
+        btnAddSet = findViewById(R.id.btnAddFlashcard);
 
         getSupportActionBar().setTitle("Add Set");
 
@@ -82,7 +82,7 @@ public class AddSetActivity extends AppCompatActivity {
                 Log.i(TAG, "Post save was successful!!");
 
                 goMainActivity();
-                finish();
+                //finish();
             }
         });
     }

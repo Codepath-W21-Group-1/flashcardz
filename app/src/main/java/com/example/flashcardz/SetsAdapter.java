@@ -24,7 +24,7 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.ViewHolder>{
     OnClickListener clickListener;
 
     public interface OnClickListener{
-        void onSetClicked(int position);
+        void onSetClicked(String objectId, String setName);
     }
 
     public SetsAdapter(Context context, List<Set> sets, OnClickListener clickListener) {
@@ -71,6 +71,8 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.ViewHolder>{
     class ViewHolder extends RecyclerView.ViewHolder{
 
         private Button btnSet;
+        private String objectId;
+        private String setName;
 
         public ViewHolder (@NonNull View itemView){
             super(itemView);
@@ -80,11 +82,13 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.ViewHolder>{
         public void bind(Set sets){
             // bind the post data to the view elements
             btnSet.setText(sets.getSetName());
+            setName = sets.getSetName();
+            objectId = sets.getObjectId();
 
             btnSet.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickListener.onSetClicked(getAdapterPosition());
+                    clickListener.onSetClicked(objectId, setName);
                     Log.i(TAG, "SET BUTTON CLICKED");
                 }
             });

@@ -72,19 +72,19 @@ public class MainActivity extends AppCompatActivity {
         SetsAdapter.OnClickListener onClickListener = new SetsAdapter.OnClickListener() {
 
             @Override
-            public void onSetClicked(int position) {
-                Log.d("MainActivity", "SIngle click at position " + position);
+            public void onSetClicked(String objectId, String setName) {
+                Log.d("MainActivity", "Object Id: " + objectId);
                 // create new activity
                 Intent i = new Intent(MainActivity.this, FlashcardsActivity.class);
                 //pass data to be edited
 
+                i.putExtra("objectId", objectId);
+                i.putExtra("setName", setName);
 //                i.putExtra(KEY_ITEM_TEXT, items.get(position));
 //                i.putExtra(KEY_ITEM_POSITION, position);
                 //display activity
 //                startActivityForResult(i, EDIT_TEXT_CODE);
                 startActivity(i);
-
-
 
             }
         };

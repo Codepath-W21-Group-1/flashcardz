@@ -15,6 +15,7 @@
         android:theme="@style/Theme.Flashcardz">
         <activity android:name=".FlashcardsActivity"/>
         <activity android:name=".AddSetActivity"/>
+        <activity android:name=".AddFlashcardActivity"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

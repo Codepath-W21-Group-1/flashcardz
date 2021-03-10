@@ -10,7 +10,7 @@ import com.parse.ParseUser;
 public class Flashcard extends ParseObject {
     public static final String KEY_FRONT_TEXT = "frontText";
     public static final String KEY_BACK_TEXT = "backText";
-    public static final String KEY_SET = "set";
+    public static final String KEY_SET = "setObjectId";
 //    public static final String KEY_USER = "user";
 
     public String getFrontText(){
@@ -29,11 +29,11 @@ public class Flashcard extends ParseObject {
         put(KEY_BACK_TEXT, backText);
     }
 
-    public ParseObject getSet(){
-        return getParseObject(KEY_SET);
+    public String getSetObjectId(){
+        return getString(KEY_SET);
     }
 
-    public void setSet(ParseObject set){
-        put(KEY_SET, set);
+    public void setSetObjectId(String id){
+        put(KEY_SET, id);
     }
 }
