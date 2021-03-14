@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,17 +20,22 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private static final int REQUEST_CODE_SET = 15;
     Button btnSet;
     public static final String TAG = "MainActivity.java";
     RecyclerView rvSets;
     List<Set> allSets;
     SetsAdapter adapter;
     FloatingActionButton fabCreateSet;
+
 
 
 
@@ -93,6 +99,25 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.i(TAG, "ASDF");
+        if (requestCode == REQUEST_CODE_SET && resultCode == RESULT_OK){
+//            Set set = Parcels.unwrap(data.getParcelableExtra("set"));
+            String setName = data.getStringExtra("setName");
+            Set set = new Set();
+            set.setSetName(setName);
+            set.setUser(ParseUser.getCurrentUser());
+            allSets.add(set);
+            adapter.notifyDataSetChanged();
+
+        }
+
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -136,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void goAddSetActivity() {
         Intent i = new Intent(this, AddSetActivity.class);
-        startActivity(i);
+        startActivityForResult(i, REQUEST_CODE_SET);
     }
 
 

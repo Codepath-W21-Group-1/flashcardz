@@ -75,10 +75,15 @@ public class AddFlashcardActivity extends AppCompatActivity {
                     Toast.makeText(AddFlashcardActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Post save was successful!!");
+                Intent i = new Intent();
+                i.putExtra("frontText", flashcard.getFrontText());
+                i.putExtra("backText", flashcard.getBackText());
+                i.putExtra("objectId", flashcard.getObjectId());
 
+                setResult(RESULT_OK, i);
 
-                goFlashcardsActivity();
-                //finish();
+//                goFlashcardsActivity();
+                finish();
             }
         });
     }

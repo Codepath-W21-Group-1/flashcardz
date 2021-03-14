@@ -4,11 +4,17 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.parceler.Parcel;
+
 @ParseClassName("Set")
+
 public class Set extends ParseObject {
 
     public static final String KEY_USER = "user";
     public static final String KEY_SET_NAME = "setName";
+
+    // empty constructor needed by the parceler library
+//    public Set(){}
 
     public void setSetName(String setName){
         put(KEY_SET_NAME, setName);

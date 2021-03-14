@@ -15,6 +15,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.parceler.Parcels;
+
 public class AddSetActivity extends AppCompatActivity {
 
     public static final String TAG = "AddSetActivity.java";
@@ -43,6 +45,8 @@ public class AddSetActivity extends AppCompatActivity {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 saveSet(setName, currentUser);
+
+
             }
 
 
@@ -80,12 +84,20 @@ public class AddSetActivity extends AppCompatActivity {
                     Toast.makeText(AddSetActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Post save was successful!!");
-
-                goMainActivity();
-                //finish();
+                Intent i = new Intent();
+                i.putExtra("setName", setName);
+                setResult(RESULT_OK, i);
+//                goMainActivity();
+                finish();
             }
         });
+
+
+
     }
+
+
+
     private void goMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);

@@ -22,6 +22,7 @@ import java.util.List;
 
 public class FlashcardsActivity extends AppCompatActivity {
     public static final String TAG = "FlashcardsActivity.java";
+    private static final int REQUEST_CODE_FLASHCARD = 20;
 
     RecyclerView rvFlashcards;
     FlashcardsAdapter adapter;
@@ -70,6 +71,25 @@ public class FlashcardsActivity extends AppCompatActivity {
         queryFlashcards();
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.i(TAG, "ASDF");
+        if (requestCode == REQUEST_CODE_FLASHCARD && resultCode == RESULT_OK){
+//            Set set = Parcels.unwrap(data.getParcelableExtra("set"));
+            String frontText = data.getStringExtra("frontText");
+            String backText = data.getStringExtra("backText");
+            String objectId = data.getStringExtra("objectId");
+            Flashcard flashcard = new Flashcard();
+            flashcard.setFrontText(frontText);
+            flashcard.setBackText(backText);
+            flashcard.setObjectId(objectId);
+            allFlashcards.add(flashcard);
+            adapter.notifyDataSetChanged();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     protected void queryFlashcards() {
         ParseQuery<Flashcard> query = ParseQuery.getQuery(Flashcard.class);
         query.include(Flashcard.KEY_SET);
@@ -99,6 +119,6 @@ public class FlashcardsActivity extends AppCompatActivity {
     private void goAddFlashcardActivity() {
         Intent i = new Intent(this, AddFlashcardActivity.class);
         i.putExtra("setObjectId", objectId);
-        startActivity(i);
+        startActivityForResult(i, REQUEST_CODE_FLASHCARD);
     }
 }
