@@ -3,9 +3,12 @@ package com.example.flashcardz;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +24,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnLogout;
     Button btnSet;
     public static final String TAG = "MainActivity.java";
     RecyclerView rvSets;
@@ -36,31 +38,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnLogout = findViewById(R.id.btnLogout);
         btnSet = findViewById(R.id.btnSet);
         fabCreateSet = findViewById(R.id.fabCreateSet);
 
         rvSets = findViewById(R.id.rvSets);
-
-//        rvSets.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.i(TAG, "rvset on click listener");
-//            }
-//        });
-
-
-
-
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOut();
-                ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
-                goLoginActivity();
-            }
-        });
 
         fabCreateSet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +92,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.profile){
+            // Compose icon has been selected
+            // navigate to compose activity
+            Intent intent = new Intent(this, ProfileActivity.class);
+//            startActivityForResult(intent, REQUEST_CODE);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     protected void querySets() {
         ParseQuery<Set> query = ParseQuery.getQuery(Set.class);
@@ -133,12 +132,6 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
-    }
-
-
-    private void goLoginActivity() {
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
     }
 
     private void goAddSetActivity() {
