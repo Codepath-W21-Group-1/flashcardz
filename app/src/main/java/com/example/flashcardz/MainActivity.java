@@ -20,8 +20,6 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         SetsAdapter.OnClickListener onClickListener = new SetsAdapter.OnClickListener() {
-
             @Override
             public void onSetClicked(String objectId, String setName) {
                 Log.d("MainActivity", "Object Id: " + objectId);

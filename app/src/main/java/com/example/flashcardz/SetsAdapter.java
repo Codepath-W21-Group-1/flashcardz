@@ -30,8 +30,6 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.ViewHolder>{
 
     }
 
-
-
     public interface OnLongClickListener{
         void onItemLongClicked(int position, String objectId, String setName);
     }

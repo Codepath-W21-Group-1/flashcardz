@@ -17,8 +17,14 @@ public class FlashcardsAdapter extends RecyclerView.Adapter<FlashcardsAdapter.Vi
 
     private Context context;
     private List<Flashcard> flashcards;
+    OnLongClickListener longClickListener;
 
-    public FlashcardsAdapter(Context context, List<Flashcard> flashcards) {
+    public interface OnLongClickListener{
+        void onFlashcardLongClicked(int position, String frontText, String backText);
+    }
+
+    public FlashcardsAdapter(Context context, List<Flashcard> flashcards, OnLongClickListener longClickListener) {
+        this.longClickListener = longClickListener;
         this.context = context;
         this.flashcards = flashcards;
         Log.i(TAG, "flashcard adapter");
@@ -74,6 +80,14 @@ public class FlashcardsAdapter extends RecyclerView.Adapter<FlashcardsAdapter.Vi
             tvTerm.setText(flashcard.getFrontText());
             tvDescription.setText(flashcard.getBackText());
             Log.i(TAG, "after bind");
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    longClickListener.onFlashcardLongClicked(getAdapterPosition(), flashcard.getFrontText(), flashcard.getBackText());
+                    return true;
+                }
+            });
         }
     }
 }

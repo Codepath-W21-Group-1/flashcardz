@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Flashcardz">
-        <activity android:name=".SetEditActivity"></activity>
+        <activity android:name=".FlashcardEditActivity"></activity>
+        <activity android:name=".SetEditActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".FlashcardsActivity" />
         <activity android:name=".AddSetActivity" />

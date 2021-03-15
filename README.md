@@ -13,6 +13,7 @@ Flashcardz is a simple flashcards app to help you memorize any subject you need,
 ### App Evaluation
 - **Category**: Study Tool
 - **Mobile**: Yes
+
 - **Story**: Users can create flash cards by writing a term and definition each side of a flashcard. They can then 'flip' the card and view each side to reinforce their knowledge. They can also rank a card based on how difficult the card is so the system can show the card again.
 - **Market**: Students have always been in need of ways to study, this app provides a simple user experience where they can get their studying done.
 - **Habit**: Users can create as many sets of flash cards as they want and use them throughout the day to reinforce their learning.

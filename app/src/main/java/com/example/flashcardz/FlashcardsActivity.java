@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import java.util.List;
 public class FlashcardsActivity extends AppCompatActivity {
     public static final String TAG = "FlashcardsActivity.java";
     private static final int REQUEST_CODE_FLASHCARD = 20;
+    private static final int CODE_EDIT_FLASHCARD = 30;
 
     RecyclerView rvFlashcards;
     FlashcardsAdapter adapter;
@@ -40,8 +42,22 @@ public class FlashcardsActivity extends AppCompatActivity {
         rvFlashcards = findViewById(R.id.rvFlashcards);
         fabCreateFlashcard = findViewById(R.id.fabCreateFlashcard);
 
+
+
+        FlashcardsAdapter.OnLongClickListener onLongClickListener = new FlashcardsAdapter.OnLongClickListener() {
+            @Override
+            public void onFlashcardLongClicked(int position, String frontText, String backText) {
+                Intent i = new Intent(FlashcardsActivity.this, FlashcardEditActivity.class);
+                i.putExtra("frontText", frontText);
+                i.putExtra("backText", backText);
+                i.putExtra("position", position);
+
+                startActivityForResult(i, CODE_EDIT_FLASHCARD);
+            }
+        };
+
         allFlashcards = new ArrayList<>();
-        adapter = new FlashcardsAdapter(this, allFlashcards);
+        adapter = new FlashcardsAdapter(this, allFlashcards, onLongClickListener);
 
         rvFlashcards.setLayoutManager(new LinearLayoutManager(this));
 
@@ -86,6 +102,16 @@ public class FlashcardsActivity extends AppCompatActivity {
             flashcard.setObjectId(objectId);
             allFlashcards.add(flashcard);
             adapter.notifyDataSetChanged();
+        }
+        if (requestCode == CODE_EDIT_FLASHCARD && resultCode == RESULT_OK) {
+            String frontText = data.getStringExtra("frontText");
+            String backText = data.getStringExtra("backText");
+            int position = data.getExtras().getInt("position");
+
+            allFlashcards.get(position).setFrontText(frontText);
+            allFlashcards.get(position).setBackText(backText);
+
+            adapter.notifyItemChanged(position);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
