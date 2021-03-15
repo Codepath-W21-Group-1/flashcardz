@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.parse.ParseFile;
 
+import java.net.HttpURLConnection;
 import java.util.List;
 
 public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.ViewHolder>{
@@ -22,12 +23,22 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.ViewHolder>{
     private List<Set> sets;
 
     OnClickListener clickListener;
+    OnLongClickListener longClickListener;
 
     public interface OnClickListener{
         void onSetClicked(String objectId, String setName);
+
     }
 
-    public SetsAdapter(Context context, List<Set> sets, OnClickListener clickListener) {
+
+
+    public interface OnLongClickListener{
+        void onItemLongClicked(int position, String objectId, String setName);
+    }
+
+
+    public SetsAdapter(Context context, List<Set> sets, OnClickListener clickListener, OnLongClickListener longClickListener) {
+        this.longClickListener = longClickListener;
         this.sets = sets;
         this.clickListener = clickListener;
         this.context = context;
@@ -92,6 +103,16 @@ public class SetsAdapter extends RecyclerView.Adapter<SetsAdapter.ViewHolder>{
                     Log.i(TAG, "SET BUTTON CLICKED");
                 }
             });
+
+            btnSet.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    longClickListener.onItemLongClicked(getAdapterPosition(), objectId, setName);
+                    return true;
+                }
+            });
+
+
 
 //            btnSet.setOnClickListener(new View.OnClickListener() {
 //                @Override

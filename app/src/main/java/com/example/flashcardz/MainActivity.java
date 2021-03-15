@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final int REQUEST_CODE_SET = 15;
+    public static final int CODE_EDIT_SET = 25;
     Button btnSet;
     public static final String TAG = "MainActivity.java";
     RecyclerView rvSets;
@@ -74,10 +75,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
 
             }
+
+
+        };
+
+        SetsAdapter.OnLongClickListener onLongClickListener = new SetsAdapter.OnLongClickListener() {
+            @Override
+            public void onItemLongClicked(int position, String objectId, String setName) {
+                Intent i = new Intent(MainActivity.this, SetEditActivity.class);
+                //pass data to be edited
+                i.putExtra("objectId", objectId);
+                i.putExtra("setName", setName);
+                i.putExtra("position", position);
+
+                startActivityForResult(i,CODE_EDIT_SET);
+            }
         };
 
         allSets = new ArrayList<>();
-        adapter = new SetsAdapter(this, allSets, onClickListener);
+        adapter = new SetsAdapter(this, allSets, onClickListener, onLongClickListener);
 
         rvSets.setLayoutManager(new LinearLayoutManager(this));
         rvSets.setAdapter(adapter);
@@ -100,9 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        Log.i(TAG, "ASDF");
         if (requestCode == REQUEST_CODE_SET && resultCode == RESULT_OK){
-//            Set set = Parcels.unwrap(data.getParcelableExtra("set"));
             String setName = data.getStringExtra("setName");
             Set set = new Set();
             set.setSetName(setName);
@@ -110,6 +124,16 @@ public class MainActivity extends AppCompatActivity {
             allSets.add(set);
             adapter.notifyDataSetChanged();
 
+        }
+
+        if (requestCode == CODE_EDIT_SET && resultCode == RESULT_OK){
+            String setName = data.getStringExtra("setName");
+
+            int position = data.getExtras().getInt("position");
+
+            allSets.get(position).setSetName(setName);
+
+            adapter.notifyItemChanged(position);
         }
 
 

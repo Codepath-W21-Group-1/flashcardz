@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Flashcardz">
-        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".SetEditActivity"></activity>
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".FlashcardsActivity" />
         <activity android:name=".AddSetActivity" />
         <activity android:name=".AddFlashcardActivity" />
@@ -24,7 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
