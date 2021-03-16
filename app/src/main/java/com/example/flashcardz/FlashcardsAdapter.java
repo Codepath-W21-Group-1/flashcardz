@@ -20,7 +20,7 @@ public class FlashcardsAdapter extends RecyclerView.Adapter<FlashcardsAdapter.Vi
     OnLongClickListener longClickListener;
 
     public interface OnLongClickListener{
-        void onFlashcardLongClicked(int position, String frontText, String backText);
+        void onFlashcardLongClicked(int position, String frontText, String backText, String objectId);
     }
 
     public FlashcardsAdapter(Context context, List<Flashcard> flashcards, OnLongClickListener longClickListener) {
@@ -84,7 +84,7 @@ public class FlashcardsAdapter extends RecyclerView.Adapter<FlashcardsAdapter.Vi
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    longClickListener.onFlashcardLongClicked(getAdapterPosition(), flashcard.getFrontText(), flashcard.getBackText());
+                    longClickListener.onFlashcardLongClicked(getAdapterPosition(), flashcard.getFrontText(), flashcard.getBackText(), flashcard.getObjectId());
                     return true;
                 }
             });

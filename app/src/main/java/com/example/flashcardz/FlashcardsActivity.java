@@ -46,11 +46,12 @@ public class FlashcardsActivity extends AppCompatActivity {
 
         FlashcardsAdapter.OnLongClickListener onLongClickListener = new FlashcardsAdapter.OnLongClickListener() {
             @Override
-            public void onFlashcardLongClicked(int position, String frontText, String backText) {
+            public void onFlashcardLongClicked(int position, String frontText, String backText, String objectId) {
                 Intent i = new Intent(FlashcardsActivity.this, FlashcardEditActivity.class);
                 i.putExtra("frontText", frontText);
                 i.putExtra("backText", backText);
                 i.putExtra("position", position);
+                i.putExtra("objectId", objectId);
 
                 startActivityForResult(i, CODE_EDIT_FLASHCARD);
             }

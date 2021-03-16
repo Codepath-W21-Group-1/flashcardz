@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra("position", position);
 
                 startActivityForResult(i,CODE_EDIT_SET);
+
             }
         };
 
@@ -126,8 +127,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == CODE_EDIT_SET && resultCode == RESULT_OK){
             String setName = data.getStringExtra("setName");
 
-            int position = data.getExtras().getInt("position");
-
+            int position = data.getIntExtra("position", 1);
+            Log.i(TAG, "IN MAIN, Position: " + position);
             allSets.get(position).setSetName(setName);
 
             adapter.notifyItemChanged(position);
