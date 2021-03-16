@@ -1,6 +1,7 @@
 package com.example.flashcardz;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,10 +12,13 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -31,17 +35,21 @@ public class MainActivity extends AppCompatActivity {
     Button btnSet;
     public static final String TAG = "MainActivity.java";
     RecyclerView rvSets;
-    List<Set> allSets;
+    RecyclerViewAdapter mAdapter;
+    ArrayList<Set> allSets;
     SetsAdapter adapter;
     FloatingActionButton fabCreateSet;
-
-
+    CoordinatorLayout coordinatorLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        coordinatorLayout = findViewById(R.id.coordinatorLayout);
+
 
         btnSet = findViewById(R.id.btnSet);
         fabCreateSet = findViewById(R.id.fabCreateSet);
@@ -93,10 +101,14 @@ public class MainActivity extends AppCompatActivity {
         allSets = new ArrayList<>();
         adapter = new SetsAdapter(this, allSets, onClickListener, onLongClickListener);
 
+        mAdapter = new RecyclerViewAdapter(allSets);
+
+
         rvSets.setLayoutManager(new LinearLayoutManager(this));
         rvSets.setAdapter(adapter);
 
         querySets();
+        enableSwipeToDeleteAndUndo();
 
 //        btnSet.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -109,6 +121,41 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void enableSwipeToDeleteAndUndo() {
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+                final int position = viewHolder.getAdapterPosition();
+
+//                Log.i(TAG, "SET at position: " + position + " = " + mAdapter.getData());
+                final Set set = mAdapter.getData().get(position);
+
+                mAdapter.removeItem(position);
+                adapter.notifyDataSetChanged();
+
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Item was removed from the list.", Snackbar.LENGTH_LONG);
+                snackbar.setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        mAdapter.restoreItem(set, position);
+                        rvSets.scrollToPosition(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+                snackbar.setActionTextColor(Color.YELLOW);
+                snackbar.show();
+
+            }
+        };
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
+        itemTouchhelper.attachToRecyclerView(rvSets);
     }
 
 
