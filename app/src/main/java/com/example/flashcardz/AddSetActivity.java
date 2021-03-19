@@ -91,9 +91,6 @@ public class AddSetActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
     }
 
 
@@ -103,5 +100,4 @@ public class AddSetActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
-
 }

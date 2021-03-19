@@ -1,22 +1,24 @@
 package com.example.flashcardz;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,16 +30,19 @@ public class FlashcardsActivity extends AppCompatActivity {
 
     RecyclerView rvFlashcards;
     FlashcardsAdapter adapter;
-    List<Flashcard> allFlashcards;
+    ArrayList<Flashcard> allFlashcards;
     String objectId;
     String setName;
     FloatingActionButton fabCreateFlashcard;
+    CoordinatorLayout coordinatorLayout;
+    RecyclerViewAdapterFlashcards mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_flashcards);
+        coordinatorLayout = findViewById(R.id.coordinatorLayoutF);
 
         rvFlashcards = findViewById(R.id.rvFlashcards);
         fabCreateFlashcard = findViewById(R.id.fabCreateFlashcard);
@@ -56,13 +61,6 @@ public class FlashcardsActivity extends AppCompatActivity {
                 startActivityForResult(i, CODE_EDIT_FLASHCARD);
             }
         };
-
-        allFlashcards = new ArrayList<>();
-        adapter = new FlashcardsAdapter(this, allFlashcards, onLongClickListener);
-
-        rvFlashcards.setLayoutManager(new LinearLayoutManager(this));
-
-        rvFlashcards.setAdapter(adapter);
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -85,7 +83,54 @@ public class FlashcardsActivity extends AppCompatActivity {
             }
         });
 
+
+        allFlashcards = new ArrayList<>();
+        adapter = new FlashcardsAdapter(this, allFlashcards, onLongClickListener);
+
+        mAdapter = new RecyclerViewAdapterFlashcards(allFlashcards);
+
+        rvFlashcards.setLayoutManager(new LinearLayoutManager(this));
+
+        rvFlashcards.setAdapter(adapter);
+
+
         queryFlashcards();
+        enableSwipeToDeleteAndUndo();
+    }
+
+    private void enableSwipeToDeleteAndUndo() {
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+                final int position = viewHolder.getAdapterPosition();
+
+//                Log.i(TAG, "SET at position: " + position + " = " + mAdapter.getData());
+                final Flashcard flashcard = mAdapter.getData().get(position);
+
+                mAdapter.removeItem(position);
+                adapter.notifyDataSetChanged();
+
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Item was removed from the list.", Snackbar.LENGTH_LONG);
+                snackbar.setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        mAdapter.restoreItem(flashcard, position);
+                        rvFlashcards.scrollToPosition(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+                snackbar.setActionTextColor(Color.YELLOW);
+                snackbar.show();
+
+            }
+        };
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
+        itemTouchhelper.attachToRecyclerView(rvFlashcards);
     }
 
 

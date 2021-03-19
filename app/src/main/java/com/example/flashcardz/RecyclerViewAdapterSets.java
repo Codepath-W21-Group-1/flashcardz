@@ -6,14 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class RecyclerViewAdapterSets extends RecyclerView.Adapter<RecyclerViewAdapterSets.MyViewHolder> {
 
     private ArrayList<Set> allSets;
 
@@ -29,7 +27,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public RecyclerViewAdapter(ArrayList<Set> allSets) {
+    public RecyclerViewAdapterSets(ArrayList<Set> allSets) {
         this.allSets = allSets;
     }
 

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,21 +22,22 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private static final int REQUEST_CODE_SET = 15;
     public static final int CODE_EDIT_SET = 25;
     Button btnSet;
     public static final String TAG = "MainActivity.java";
     RecyclerView rvSets;
-    RecyclerViewAdapter mAdapter;
+    RecyclerViewAdapterSets mAdapter;
     ArrayList<Set> allSets;
     SetsAdapter adapter;
     FloatingActionButton fabCreateSet;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        coordinatorLayout = findViewById(R.id.coordinatorLayout);
+        coordinatorLayout = findViewById(R.id.coordinatorLayoutS);
 
 
         btnSet = findViewById(R.id.btnSet);
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         allSets = new ArrayList<>();
         adapter = new SetsAdapter(this, allSets, onClickListener, onLongClickListener);
 
-        mAdapter = new RecyclerViewAdapter(allSets);
+        mAdapter = new RecyclerViewAdapterSets(allSets);
 
 
         rvSets.setLayoutManager(new LinearLayoutManager(this));
@@ -109,18 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
         querySets();
         enableSwipeToDeleteAndUndo();
-
-//        btnSet.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.i(TAG, "SET BUTTON CLICKED");
-//            }
-//        });
-
-
-
-
-
     }
 
     private void enableSwipeToDeleteAndUndo() {
@@ -129,10 +119,9 @@ public class MainActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
                 final int position = viewHolder.getAdapterPosition();
-
-//                Log.i(TAG, "SET at position: " + position + " = " + mAdapter.getData());
                 final Set set = mAdapter.getData().get(position);
 
+                removeSet(position);
                 mAdapter.removeItem(position);
                 adapter.notifyDataSetChanged();
 
@@ -143,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View view) {
 
                         mAdapter.restoreItem(set, position);
+                        restoreSet(set);
                         rvSets.scrollToPosition(position);
                         adapter.notifyDataSetChanged();
                     }
@@ -150,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
 
                 snackbar.setActionTextColor(Color.YELLOW);
                 snackbar.show();
-
             }
         };
 
@@ -158,6 +147,45 @@ public class MainActivity extends AppCompatActivity {
         itemTouchhelper.attachToRecyclerView(rvSets);
     }
 
+
+
+    private void removeSet(int position) {
+        String objectId = mAdapter.getData().get(position).getObjectId();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Set");
+        query.getInBackground(objectId, (object, e) -> {
+            if (e == null) {
+                // Deletes the fetched ParseObject from the database
+                object.deleteInBackground(e2 -> {
+                    if(e2==null){
+                        Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                    }else{
+                        //Something went wrong while deleting the Object
+                        Toast.makeText(this, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else{
+                //Something went wrong while retrieving the Object
+                Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void restoreSet(Set tempSet) {
+        Set set = new Set();
+        set.setSetName(tempSet.getSetName());
+        set.setUser(tempSet.getUser());
+        set.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null){
+                    Log.e(TAG, "ERROR while saving", e);
+                    Toast.makeText(MainActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "Post save was successful!!");
+            }
+        });
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -168,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
             set.setUser(ParseUser.getCurrentUser());
             allSets.add(set);
             adapter.notifyDataSetChanged();
-
         }
 
         if (requestCode == CODE_EDIT_SET && resultCode == RESULT_OK){
@@ -180,8 +207,6 @@ public class MainActivity extends AppCompatActivity {
 
             adapter.notifyItemChanged(position);
         }
-
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 
