@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +19,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,10 +107,9 @@ public class FlashcardsActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
                 final int position = viewHolder.getAdapterPosition();
-
-//                Log.i(TAG, "SET at position: " + position + " = " + mAdapter.getData());
                 final Flashcard flashcard = mAdapter.getData().get(position);
 
+                removeFlashcard(position);
                 mAdapter.removeItem(position);
                 adapter.notifyDataSetChanged();
 
@@ -118,6 +120,7 @@ public class FlashcardsActivity extends AppCompatActivity {
                     public void onClick(View view) {
 
                         mAdapter.restoreItem(flashcard, position);
+                        restoreFlashcard(flashcard);
                         rvFlashcards.scrollToPosition(position);
                         adapter.notifyDataSetChanged();
                     }
@@ -133,6 +136,46 @@ public class FlashcardsActivity extends AppCompatActivity {
         itemTouchhelper.attachToRecyclerView(rvFlashcards);
     }
 
+
+
+    private void removeFlashcard(int position) {
+        String objectId = mAdapter.getData().get(position).getObjectId();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Flashcard");
+        query.getInBackground(objectId, (object, e) -> {
+            if (e == null) {
+                // Deletes the fetched ParseObject from the database
+                object.deleteInBackground(e2 -> {
+                    if(e2==null){
+                        Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                    }else{
+                        //Something went wrong while deleting the Object
+                        Toast.makeText(this, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else{
+                //Something went wrong while retrieving the Object
+                Toast.makeText(this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void restoreFlashcard(Flashcard tempFlashcard) {
+        Flashcard flashcard = new Flashcard();
+        flashcard.setFrontText(tempFlashcard.getFrontText());
+        flashcard.setBackText(tempFlashcard.getBackText());
+        flashcard.setSetObjectId(tempFlashcard.getSetObjectId());
+        flashcard.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null){
+                    Log.e(TAG, "ERROR while saving", e);
+                    Toast.makeText(FlashcardsActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "Post save was successful!!");
+            }
+        });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
